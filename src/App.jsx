@@ -1,15 +1,33 @@
-// src/App.jsx
-import React, { useState } from 'react';
-import { products } from './data/products';
-import ProductList from './components/ProductList';
-import Cart from './components/Cart';
+import React, { useState, useEffect } from 'react';
+import { products } from './data/products'; // Import product data
+import './App.css'; // Import app-specific styles
 
 function App() {
-  const [cart, setCart] = useState([]);
+  // State for the cart
+  const [cart, setCart] = useState(() => {
+    const savedCart = JSON.parse(localStorage.getItem('cart')); // Load cart from localStorage
+    return savedCart || []; // Return saved cart or an empty array
+  });
 
+  // Save cart to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
+
+  // State for the product list
+  const [productsList, setProductsList] = useState(products);
+
+  // State for the search term
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // State for sorting
+  const [sort, setSort] = useState({ type: 'name', order: 'asc' });
+
+  // Add a product to the cart
   const addToCart = (product) => {
     const existingProduct = cart.find((item) => item.id === product.id);
     if (existingProduct) {
+      // If the product is already in the cart, increase its quantity
       setCart(
         cart.map((item) =>
           item.id === product.id
@@ -18,15 +36,26 @@ function App() {
         )
       );
     } else {
+      // If the product is not in the cart, add it with a quantity of 1
       setCart([...cart, { ...product, quantity: 1 }]);
     }
   };
 
+  // Remove a product from the cart
   const removeFromCart = (id) => {
     setCart(cart.filter((item) => item.id !== id));
   };
 
+  // Adjust the quantity of a product in the cart
   const adjustQuantity = (id, amount) => {
+    if (amount < 0) {
+      const product = cart.find((item) => item.id === id);
+      if (product.quantity + amount < 0) {
+        // Prevent negative quantities
+        alert('Quantity cannot be negative. Please remove the item from the cart instead.');
+        return;
+      }
+    }
     setCart(
       cart.map((item) =>
         item.id === id
@@ -36,28 +65,103 @@ function App() {
     );
   };
 
+  // Handle search input
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+    const filteredProducts = products.filter((product) =>
+      product.name.toLowerCase().includes(event.target.value.toLowerCase())
+    );
+    setProductsList(filteredProducts);
+  };
+
+  // Handle sorting
+  const handleSort = (event) => {
+    const type = event.target.value;
+    const order = event.target.dataset.order;
+    setSort({ type, order });
+    const sortedProducts = products.sort((a, b) => {
+      if (type === 'name') {
+        if (order === 'asc') {
+          return a.name.localeCompare(b.name);
+        } else {
+          return b.name.localeCompare(a.name);
+        }
+      } else {
+        if (order === 'asc') {
+          return a.price - b.price;
+        } else {
+          return b.price - a.price;
+        }
+      }
+    });
+    setProductsList(sortedProducts);
+  };
+
+  // Calculate the total price of the cart
   const totalPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0);
 
   return (
-    <div>
+    <div className="app-container">
       <h1>Simple E-Commerce Cart</h1>
-      <ProductList products={products} addToCart={addToCart} />
-      <Cart cart={cart} removeFromCart={removeFromCart} adjustQuantity={adjustQuantity} totalPrice={totalPrice} />
+      <div className="search-sort-container">
+        <input
+          type="search"
+          value={searchTerm}
+          onChange={handleSearch}
+          placeholder="Search products"
+        />
+        <select value={sort.type} onChange={handleSort}>
+          <option value="name" data-order="asc">
+            Sort by name (A-Z)
+          </option>
+          <option value="name" data-order="desc">
+            Sort by name (Z-A)
+          </option>
+          <option value="price" data-order="asc">
+            Sort by price (Low-High)
+          </option>
+          <option value="price" data-order="desc">
+            Sort by price (High-Low)
+          </option>
+        </select>
+      </div>
+      {productsList.length === 0 ? (
+        <p>No products found</p>
+      ) : (
+        <div className="products-container">
+          {productsList.map((product) => (
+            <div key={product.id} className="product-card">
+              <h3>{product.name}</h3>
+              <p>${product.price}</p>
+              <button onClick={() => addToCart(product)}>Add to Cart</button>
+            </div>
+          ))}
+        </div>
+      )}
+      {cart.length === 0 ? (
+        <p>Your cart is empty</p>
+      ) : (
+        <div className="cart-container">
+          <h2>Cart</h2>
+          <ul className="cart-items">
+            {cart.map((item) => (
+              <li key={item.id} className="cart-item">
+                <span>
+                  {item.name} - ${item.price} x {item.quantity}
+                </span>
+                <div className="cart-buttons">
+                  <button onClick={() => adjustQuantity(item.id, -1)}>-</button>
+                  <button onClick={() => adjustQuantity(item.id, 1)}>+</button>
+                  <button onClick={() => removeFromCart(item.id)}>Remove</button>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <h2>Total: ${totalPrice}</h2>
+        </div>
+      )}
     </div>
   );
 }
-
-// Save cart to localStorage
-React.useEffect(() => {
-  localStorage.setItem('cart', JSON.stringify(cart));
-}, [cart]);
-
-// Load cart from localStorage on initial load
-React.useEffect(() => {
-  const savedCart = JSON.parse(localStorage.getItem('cart'));
-  if (savedCart) {
-    setCart(savedCart);
-  }
-}, []);
 
 export default App;

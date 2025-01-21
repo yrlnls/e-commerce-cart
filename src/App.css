@@ -1,42 +1,109 @@
+/* Root container for the app */
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  max-width: 1280px; /* Maximum width of the app */
+  margin: 0 auto; /* Center the app horizontally */
+  padding: 2rem; /* Padding around the app */
+  text-align: center; /* Center text */
+  width: 100%; /* Full width */
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Main app container */
+.app-container {
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  gap: 2rem; /* Space between children */
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Search and sort container */
+.search-sort-container {
+  display: flex;
+  justify-content: center; /* Center children horizontally */
+  gap: 1rem; /* Space between input and dropdown */
+  margin-bottom: 2rem; /* Space below the container */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Product list container */
+.products-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+  gap: 1.5rem; /* Space between product cards */
+  margin-bottom: 2rem; /* Space below the product list */
 }
 
-.card {
-  padding: 2em;
+/* Product card styles */
+.product-card {
+  background-color: #2a2a2a; /* Dark background */
+  padding: 1.5rem; /* Padding inside the card */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  text-align: center; /* Center text */
+  transition: transform 0.25s; /* Smooth hover effect */
 }
 
-.read-the-docs {
-  color: #888;
+/* Product card hover effect */
+.product-card:hover {
+  transform: translateY(-5px); /* Move card up slightly */
+}
+
+/* Product name styles */
+.product-card h3 {
+  margin-bottom: 0.5rem; /* Space below the name */
+  color: #646cff; /* Accent color */
+}
+
+/* Product price styles */
+.product-card p {
+  margin-bottom: 1rem; /* Space below the price */
+  color: #888; /* Light gray text */
+}
+
+/* Add to cart button styles */
+.product-card button {
+  margin-top: 1rem; /* Space above the button */
+}
+
+/* Cart container styles */
+.cart-container {
+  background-color: #2a2a2a; /* Dark background */
+  padding: 1.5rem; /* Padding inside the cart */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Cart items list styles */
+.cart-items {
+  list-style: none; /* Remove bullet points */
+  padding: 0; /* Remove default padding */
+}
+
+/* Cart item styles */
+.cart-item {
+  display: flex;
+  justify-content: space-between; /* Space between item name and buttons */
+  align-items: center; /* Center items vertically */
+  padding: 1rem; /* Padding inside the item */
+  border-bottom: 1px solid #444; /* Divider between items */
+}
+
+/* Remove border from the last cart item */
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+/* Cart buttons container */
+.cart-buttons {
+  display: flex;
+  gap: 0.5rem; /* Space between buttons */
+}
+
+/* Cart button styles */
+.cart-buttons button {
+  padding: 0.5rem; /* Padding inside the button */
+  font-size: 0.9rem; /* Smaller font size */
+}
+
+/* Empty cart message styles */
+.empty-message {
+  color: #888; /* Light gray text */
+  font-size: 1.2rem; /* Larger font size */
 }

@@ -1,12 +1,12 @@
-// src/components/Product.jsx
 import React from 'react';
 
+// Product component to display a single product
 function Product({ product, addToCart }) {
   return (
-    <div>
-      <h3>{product.name}</h3>
-      <p>${product.price}</p>
-      <button onClick={() => addToCart(product)}>Add to Cart</button>
+    <div className="product-card">
+      <h3>{product.name}</h3> {/* Display product name */}
+      <p>${product.price}</p> {/* Display product price */}
+      <button onClick={() => addToCart(product)}>Add to Cart</button> {/* Add to cart button */}
     </div>
   );
 }
