@@ -74,29 +74,6 @@ function App() {
     setProductsList(filteredProducts);
   };
 
-  // Handle sorting
-  const handleSort = (event) => {
-    const type = event.target.value;
-    const order = event.target.dataset.order;
-    setSort({ type, order });
-    const sortedProducts = products.sort((a, b) => {
-      if (type === 'name') {
-        if (order === 'asc') {
-          return a.name.localeCompare(b.name);
-        } else {
-          return b.name.localeCompare(a.name);
-        }
-      } else {
-        if (order === 'asc') {
-          return a.price - b.price;
-        } else {
-          return b.price - a.price;
-        }
-      }
-    });
-    setProductsList(sortedProducts);
-  };
-
   // Calculate the total price of the cart
   const totalPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0);
 
@@ -104,26 +81,7 @@ function App() {
     <div className="app-container">
       <h1>Simple E-Commerce Cart</h1>
       <div className="search-sort-container">
-        <input
-          type="search"
-          value={searchTerm}
-          onChange={handleSearch}
-          placeholder="Search products"
-        />
-        <select value={sort.type} onChange={handleSort}>
-          <option value="name" data-order="asc">
-            Sort by name (A-Z)
-          </option>
-          <option value="name" data-order="desc">
-            Sort by name (Z-A)
-          </option>
-          <option value="price" data-order="asc">
-            Sort by price (Low-High)
-          </option>
-          <option value="price" data-order="desc">
-            Sort by price (High-Low)
-          </option>
-        </select>
+        <input type="search" value={searchTerm} onChange={handleSearch} placeholder="Search products" />
       </div>
       {productsList.length === 0 ? (
         <p>No products found</p>
