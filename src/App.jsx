@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { products } from './data/products'; // Import product data
-import './App.css'; // Import app-specific styles
+import { products } from './data/products'; 
+import './App.css'; 
 
 function App() {
   // State for the cart
   const [cart, setCart] = useState(() => {
-    const savedCart = JSON.parse(localStorage.getItem('cart')); // Load cart from localStorage
-    return savedCart || []; // Return saved cart or an empty array
+    const savedCart = JSON.parse(localStorage.getItem('cart')); 
+    return savedCart || []; 
   });
 
   // Save cart to localStorage whenever it changes
@@ -17,11 +17,7 @@ function App() {
   // State for the product list
   const [productsList, setProductsList] = useState(products);
 
-  // State for the search term
-  const [searchTerm, setSearchTerm] = useState('');
 
-  // State for sorting
-  const [sort, setSort] = useState({ type: 'name', order: 'asc' });
 
   // Add a product to the cart
   const addToCart = (product) => {
@@ -65,14 +61,7 @@ function App() {
     );
   };
 
-  // Handle search input
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-    const filteredProducts = products.filter((product) =>
-      product.name.toLowerCase().includes(event.target.value.toLowerCase())
-    );
-    setProductsList(filteredProducts);
-  };
+ 
 
   // Calculate the total price of the cart
   const totalPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0);

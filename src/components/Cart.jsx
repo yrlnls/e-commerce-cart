@@ -9,13 +9,13 @@ function Cart({ cart, removeFromCart, adjustQuantity, totalPrice }) {
         {cart.map((item) => (
           <li key={item.id}>
             {item.name} - ${item.price} x {item.quantity}
-            <button onClick={() => removeFromCart(item.id)}>Remove</button> {/* Remove item button */}
-            <button onClick={() => adjustQuantity(item.id, 1)}>+</button> {/* Increase quantity button */}
-            <button onClick={() => adjustQuantity(item.id, -1)}>-</button> {/* Decrease quantity button */}
+            <button onClick={() => removeFromCart(item.id)}>Remove</button> 
+            <button onClick={() => adjustQuantity(item.id, 1)}>+</button> 
+            <button onClick={() => adjustQuantity(item.id, -1)}>-</button> 
           </li>
         ))}
       </ul>
-      <h3>Total: ${totalPrice}</h3> {/* Display total price of items in the cart */}
+      <h3>Total: ${totalPrice}</h3> 
     </div>
   );
 }

@@ -4,9 +4,9 @@ import React from 'react';
 function Product({ product, addToCart }) {
   return (
     <div className="product-card">
-      <h3>{product.name}</h3> {/* Display product name */}
-      <p>${product.price}</p> {/* Display product price */}
-      <button onClick={() => addToCart(product)}>Add to Cart</button> {/* Add to cart button */}
+      <h3>{product.name}</h3> 
+      <p>${product.price}</p> 
+      <button onClick={() => addToCart(product)}>Add to Cart</button> 
     </div>
   );
 }
