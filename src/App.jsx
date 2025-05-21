@@ -16,8 +16,15 @@ function App() {
 
   // State for the product list
   const [productsList, setProductsList] = useState(products);
+  
+  // State for the search term
+  const [searchTerm, setSearchTerm] = useState('');
 
-
+  // Handle search input change
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+    // Optionally, filter products based on searchTerm here
+  };
 
   // Add a product to the cart
   const addToCart = (product) => {
@@ -60,8 +67,6 @@ function App() {
       )
     );
   };
-
- 
 
   // Calculate the total price of the cart
   const totalPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0);
